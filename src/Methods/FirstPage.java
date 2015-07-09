@@ -30,7 +30,7 @@ public class FirstPage extends PageBase {
     public void Regbtn() throws InterruptedException {
         getDriver().findElement(By.linkText(getProperty("RegisterBTN_linkText"))).click();
     }
-    //Метод удаляет строку из тхт файла
+    //Метод удаляет /строку из тхт файла
     public void removeLineFromFile(String file, String lineToRemove) {
         try {
             File inFile = new File(file);
@@ -69,7 +69,7 @@ public class FirstPage extends PageBase {
             ex.printStackTrace();
         }
     }
-    public void FillIdentityEstablishment() throws InterruptedException {
+    public void FillIdentityEstablishment() throws InterruptedException, FileNotFoundException {
         getDriver().findElement(By.id(getProperty("SocialSecurityNumberField_id"))).clear();
         try {
             Scanner inputStream = new Scanner(file1);
@@ -132,8 +132,11 @@ public class FirstPage extends PageBase {
             e.printStackTrace();
         }
         getDriver().findElement(By.xpath(getProperty("ContinueBTN_xpath"))).click();
-        wait(1000);
-    }
+
+        }
+
+
+
     public void FillIdentityVerification() throws InterruptedException {
         wait(1000);
         getDriver().findElement(By.xpath(getProperty("FirstRadioButonNONE_xpath"))).click();
@@ -177,6 +180,38 @@ public class FirstPage extends PageBase {
             getDriver().findElement(By.xpath(getProperty("ContinueBtn_xpath"))).click();
 
         }
+    }
+    public void removeFirstItemFromUsernameEnrollCSV() throws InterruptedException, FileNotFoundException {
+        Scanner inputStream = new Scanner(file2);
+        inputStream.hasNext();
+        String data1 = inputStream.next();
+        inputStream.close();
+
+        //Переиминует ЦСВ в ТХТ
+        File newFile = new File("Files\\UserNameEnroll.txt");
+        file2.renameTo(newFile) ;
+        //Удаляет первое значение
+        FirstPage operationWithFile = new FirstPage();
+        System.out.print(data1);
+        operationWithFile.removeLineFromFile("Files\\UserNameEnroll.txt", data1);
+        //Переиминует ТХТ в ЦСВ
+        newFile.renameTo(file2);
+   }
+    public void removeFirstItemFromUsernameSignInCSV() throws InterruptedException, FileNotFoundException {
+        Scanner inputStream = new Scanner(file3);
+        inputStream.hasNext();
+        String data3 = inputStream.next();
+        inputStream.close();
+
+        //Переиминует ЦСВ в ТХТ
+        File newFile = new File("Files\\UserNameSignIn.txt");
+        file3.renameTo(newFile) ;
+        //Удаляет первое значение
+        FirstPage operationWithFile = new FirstPage();
+        System.out.print(data3);
+        operationWithFile.removeLineFromFile("Files\\UserNameSignIn.txt", data3);
+        //Переиминует ТХТ в ЦСВ
+        newFile.renameTo(file3);
     }
     public void FillLoginInformation() throws InterruptedException {
         getDriver().findElement(By.id(getProperty("UserNameField_id"))).clear();
@@ -276,6 +311,7 @@ public class FirstPage extends PageBase {
             getDriver().findElement(By.id(getProperty("PrimaryEmailField_id"))).sendKeys(getProperty("SendEmail.value"));
             wait(1000);
             getDriver().findElement(By.xpath(getProperty("ContinueBtn_xpath"))).click();
+
         }
         catch (Exception e){
             wait(5000);

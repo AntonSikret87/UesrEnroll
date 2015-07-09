@@ -1,18 +1,22 @@
 package Tests;
 
 import Methods.FirstPage;
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Created by sikretSSD on 17.03.2015.
  */
 public class UserEnrollTest extends BaseTest {
+//    @FindBy(id = "layout-wrapper")
+//    WebElement linkForgotUsername;
 
 
     @Test(groups = "good")
-    public void EnrollandSignIn() throws InterruptedException {
+    public void EnrollandSignIn() throws InterruptedException, FileNotFoundException {
 //enroll
         File logFile = new File("Files\\SSN&ID&DataBirth.csv");
         while (logFile.length() > 0) {
@@ -20,9 +24,18 @@ public class UserEnrollTest extends BaseTest {
             wait(2000);
             FirstPage firstpage = new FirstPage();
             wait(2000);
-            firstpage.Regbtn();
-            wait(4000);
-            firstpage.FillIdentityEstablishment();
+            if (isElementPresent(By.id("layout-wrapper"))) {
+                firstpage.Regbtn();
+                wait(4000);
+                firstpage.FillIdentityEstablishment();
+            }
+            wait(6000);
+            //Проверка заенролен ли  юзер
+            if (getDriver().findElement(By.className("text-error")).isDisplayed()) {
+                firstpage.removeFirstItemFromUsernameEnrollCSV();
+                firstpage.removeFirstItemFromUsernameSignInCSV();
+                continue;
+            }
             wait(6000);
             firstpage.FillIdentityVerification();
             wait(6000);
@@ -36,6 +49,11 @@ public class UserEnrollTest extends BaseTest {
             wait(4000);
             firstpage.ReturnToLog();
 ////Sign in if need to send email
+            //Идёт на другой таб открывает https://temp-mail.ru/
+            //Сменить
+            //ВВодит значени из CreatingEmailValue
+            //скопировал емайл
+            //Возвращается к табу с HomePage
             wait(2000);
             firstpage.SigninFirstAfterEnroll();
             wait(4000);
@@ -43,9 +61,15 @@ public class UserEnrollTest extends BaseTest {
             wait(3000);
             firstpage.PasswordEntry();
             wait(2000);
+            //Вставляет емейл из буфера
             firstpage.SendMailOrLogout();
             wait(2000);
-            }
+            //Вернулся к табу с мылом
+            //Обновить нажал
+            //Нажал на активную линку и нажмём ещё раз на линку(Проверить нет ли активных линок)
+            //Удалить мыло  и Закрыть таб (Вернутся к началу цикла)
+
         }
     }
+}
 
