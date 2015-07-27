@@ -251,6 +251,7 @@ public class FirstPage extends PageBase {
         getDriver().findElement(By.id(getProperty("PoolNumber3AnswerField_id"))).clear();
         getDriver().findElement(By.id(getProperty("PoolNumber3AnswerField_id"))).sendKeys(getProperty("PersonalPhrase.value"));
         getDriver().findElement(By.xpath(getProperty("ContinueBtn_xpath"))).click();
+        wait(2000);
     }
     public void ClickContinueAccountFeatures() throws InterruptedException {
         getDriver().findElement(By.xpath(getProperty("ContinueBtn_xpath"))).click();

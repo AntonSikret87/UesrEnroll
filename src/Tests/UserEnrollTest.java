@@ -49,11 +49,7 @@ public class UserEnrollTest extends BaseTest {
             wait(4000);
             firstpage.ReturnToLog();
 ////Sign in if need to send email
-            //Идёт на другой таб открывает https://temp-mail.ru/
-            //Сменить
-            //ВВодит значени из CreatingEmailValue
-            //скопировал емайл
-            //Возвращается к табу с HomePage
+
             wait(2000);
             firstpage.SigninFirstAfterEnroll();
             wait(4000);
@@ -63,12 +59,6 @@ public class UserEnrollTest extends BaseTest {
             wait(2000);
             //Вставляет емейл из буфера
             firstpage.SendMailOrLogout();
-            wait(2000);
-            //Вернулся к табу с мылом
-            //Обновить нажал
-            //Нажал на активную линку и нажмём ещё раз на линку(Проверить нет ли активных линок)
-            //Удалить мыло  и Закрыть таб (Вернутся к началу цикла)
-
         }
     }
 }

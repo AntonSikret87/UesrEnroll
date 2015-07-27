@@ -9,5 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="selenium-server-standalone-2.39.0" level="project" />
     <orderEntry type="library" name="selenium-server-standalone-2.45.0 (2)" level="project" />
+    <orderEntry type="library" name="selenium-server-standalone-2.46.0 (1)" level="project" />
   </component>
 </module>
