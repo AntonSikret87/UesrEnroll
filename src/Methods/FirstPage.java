@@ -1,6 +1,8 @@
 package Methods;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.*;
 import java.util.Scanner;
@@ -28,6 +30,8 @@ public class FirstPage extends PageBase {
     public void Init() {
     }
     public void Regbtn() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(getDriver(),30);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText(getProperty("RegisterBTN_linkText"))));
         getDriver().findElement(By.linkText(getProperty("RegisterBTN_linkText"))).click();
     }
     //Метод удаляет /строку из тхт файла
@@ -70,6 +74,8 @@ public class FirstPage extends PageBase {
         }
     }
     public void FillIdentityEstablishment() throws InterruptedException, FileNotFoundException {
+        WebDriverWait wait = new WebDriverWait(getDriver(),30);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(getProperty("SocialSecurityNumberField_id"))));
         getDriver().findElement(By.id(getProperty("SocialSecurityNumberField_id"))).clear();
         try {
             Scanner inputStream = new Scanner(file1);
@@ -123,7 +129,7 @@ public class FirstPage extends PageBase {
             file1.renameTo(newFile) ;
             //Удаляет первое значение
             FirstPage operationWithFile = new FirstPage();
-            System.out.print(data);
+            //System.out.print(data);
             operationWithFile.removeLineFromFile("Files\\SSN&ID&DataBirth.txt", data);
             //Переиминует ТХТ в ЦСВ
             newFile.renameTo(file1);
@@ -138,11 +144,10 @@ public class FirstPage extends PageBase {
 
 
     public void FillIdentityVerification() throws InterruptedException {
-        wait(1000);
+        WebDriverWait wait = new WebDriverWait(getDriver(),60);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(getProperty("FirstRadioButonNONE_xpath"))));
         getDriver().findElement(By.xpath(getProperty("FirstRadioButonNONE_xpath"))).click();
-        wait(1000);
         getDriver().findElement(By.xpath(getProperty("SecondRadioButonNONE_xpath"))).click();
-        wait(1000);
         getDriver().findElement(By.xpath(getProperty("ThirdRadioButonNONE_xpath"))).click();
         getDriver().findElement(By.xpath(getProperty("ContinueBtn_xpath"))).click();
 
@@ -155,9 +160,11 @@ public class FirstPage extends PageBase {
 
     //unmark in AdminTool EnrollmentWorkflow->"Email address" "Require response" checkboxes
     public void FillContactInformation() throws InterruptedException {
-        wait(1000);
+        wait(4000);
         if(getDriver().findElement(By.name(getProperty("EmailAddressField_name"))).isDisplayed()) //If user never enroll before
         {
+            WebDriverWait wait = new WebDriverWait(getDriver(),60);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.name(getProperty("EmailAddressField_name"))));
             getDriver().findElement(By.name(getProperty("EmailAddressField_name"))).clear();
             getDriver().findElement(By.name(getProperty("EmailAddressField_name"))).sendKeys(getProperty("SendEmail.value"));
             getDriver().findElement(By.name(getProperty("ConfirmEmailAddressField_name"))).clear();
@@ -167,18 +174,15 @@ public class FirstPage extends PageBase {
         }
         else // if user was enrolled before
         {
+            WebDriverWait wait = new WebDriverWait(getDriver(),60);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(getProperty("ChangeEmailBtn_css"))));
             getDriver().findElement(By.cssSelector(getProperty("ChangeEmailBtn_css"))).click(); //тут может упасть (поменять на By.name)
-            wait(2000);
             getDriver().findElement(By.name(getProperty("EmailAddressField_name"))).clear();
             getDriver().findElement(By.name(getProperty("EmailAddressField_name"))).sendKeys(getProperty("SendEmail.value"));
             getDriver().findElement(By.name(getProperty("ConfirmEmailAddressField_name"))).clear();
-            wait(2000);
             getDriver().findElement(By.name(getProperty("ConfirmEmailAddressField_name"))).sendKeys(getProperty("SendEmail.value"));
-            wait(2000);
             getDriver().findElement(By.xpath(getProperty("OKBTNDialog_xpath"))).click();
-            wait(2000);
             getDriver().findElement(By.xpath(getProperty("ContinueBtn_xpath"))).click();
-
         }
     }
     public void removeFirstItemFromUsernameEnrollCSV() throws InterruptedException, FileNotFoundException {
@@ -192,7 +196,7 @@ public class FirstPage extends PageBase {
         file2.renameTo(newFile) ;
         //Удаляет первое значение
         FirstPage operationWithFile = new FirstPage();
-        System.out.print(data1);
+        //System.out.print(data1);
         operationWithFile.removeLineFromFile("Files\\UserNameEnroll.txt", data1);
         //Переиминует ТХТ в ЦСВ
         newFile.renameTo(file2);
@@ -208,12 +212,14 @@ public class FirstPage extends PageBase {
         file3.renameTo(newFile) ;
         //Удаляет первое значение
         FirstPage operationWithFile = new FirstPage();
-        System.out.print(data3);
+        //System.out.print(data3);
         operationWithFile.removeLineFromFile("Files\\UserNameSignIn.txt", data3);
         //Переиминует ТХТ в ЦСВ
         newFile.renameTo(file3);
     }
     public void FillLoginInformation() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(getDriver(),40);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(getProperty("UserNameField_id"))));
         getDriver().findElement(By.id(getProperty("UserNameField_id"))).clear();
         try {
             Scanner inputStream = new Scanner(file2);
@@ -229,7 +235,7 @@ public class FirstPage extends PageBase {
             file2.renameTo(newFile) ;
             //Удаляет первое значение
             FirstPage operationWithFile = new FirstPage();
-            System.out.print(data);
+            //System.out.print(data);
             operationWithFile.removeLineFromFile("Files\\UserNameEnroll.txt", data);
             //Переиминует ТХТ в ЦСВ
             newFile.renameTo(file2);
@@ -242,7 +248,7 @@ public class FirstPage extends PageBase {
         getDriver().findElement(By.id(getProperty("NewPasswordConfirmationField_id"))).sendKeys(getProperty("Password.value"));
         getDriver().findElement(By.id(getProperty("PersonalPhraseField_id"))).clear();
         getDriver().findElement(By.id(getProperty("PersonalPhraseField_id"))).sendKeys(getProperty("PersonalPhrase.value"));
-        wait(2000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(getProperty("Image2_xpath"))));
         getDriver().findElement(By.xpath(getProperty("Image2_xpath"))).click(); //вторая картинка
         getDriver().findElement(By.id(getProperty("PoolNumber1AnswerField_id"))).clear();
         getDriver().findElement(By.id(getProperty("PoolNumber1AnswerField_id"))).sendKeys(getProperty("PersonalPhrase.value"));
@@ -251,23 +257,27 @@ public class FirstPage extends PageBase {
         getDriver().findElement(By.id(getProperty("PoolNumber3AnswerField_id"))).clear();
         getDriver().findElement(By.id(getProperty("PoolNumber3AnswerField_id"))).sendKeys(getProperty("PersonalPhrase.value"));
         getDriver().findElement(By.xpath(getProperty("ContinueBtn_xpath"))).click();
-        wait(2000);
+
     }
     public void ClickContinueAccountFeatures() throws InterruptedException {
+        wait(4000);
         getDriver().findElement(By.xpath(getProperty("ContinueBtn_xpath"))).click();
     }
     public void ClickAcceptConfirm() throws InterruptedException {
-        wait(3000);
+        wait(4000);
         getDriver().findElement(By.xpath(getProperty("checkboxaccept_xpath"))).click();
-        wait(2000);
         getDriver().findElement(By.xpath(getProperty("ContinueBtn_xpath"))).click();
-        wait(7000);
+
     }
     public void ReturnToLog() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(getDriver(),70);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText(getProperty("ReturnToLog_linkText"))));
         getDriver().findElement(By.linkText(getProperty("ReturnToLog_linkText"))).click();
-        wait(4000);
+
     }
     public void SigninFirstAfterEnroll() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(getDriver(),40);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(getProperty("UNameField_id"))));
         getDriver().findElement(By.id(getProperty("UNameField_id"))).clear();
         try {
             Scanner inputStream = new Scanner(file3);
@@ -283,28 +293,31 @@ public class FirstPage extends PageBase {
             file3.renameTo(newFile) ;
             //Удаляет первое значение
             FirstPage operationWithFile = new FirstPage();
-            System.out.print(data);
+            //System.out.print(data);
             operationWithFile.removeLineFromFile("Files\\UserNameSignIn.txt", data);
             //Переиминует ТХТ в ЦСВ
             newFile.renameTo(file3);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        wait(1000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name(getProperty("SubmitBTN_name"))));
         getDriver().findElement(By.name(getProperty("SubmitBTN_name"))).click();
     }
     public void AnswerQuestion() throws InterruptedException {
-        wait(1000);
+        WebDriverWait wait = new WebDriverWait(getDriver(),40);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(getProperty("ChallengeQuestionField_id"))));
         getDriver().findElement(By.id(getProperty("ChallengeQuestionField_id"))).clear();
         getDriver().findElement(By.id(getProperty("ChallengeQuestionField_id"))).sendKeys(getProperty("AnswerQuestion.value"));
-        wait(1000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(getProperty("SubmitAnswerBTN_xpath"))));
         getDriver().findElement(By.xpath(getProperty("SubmitAnswerBTN_xpath"))).click();
     }
     public void PasswordEntry() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(getDriver(),40);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(getProperty("PasswordField_id"))));
         getDriver().findElement(By.id(getProperty("PasswordField_id"))).clear();
         getDriver().findElement(By.id(getProperty("PasswordField_id"))).sendKeys(getProperty("Password.value"));
         getDriver().findElement(By.xpath(getProperty("ContinueBtn_xpath"))).click();
-        wait(1000);
+
     }
     public void SendMailOrLogout() throws InterruptedException {
         try{
